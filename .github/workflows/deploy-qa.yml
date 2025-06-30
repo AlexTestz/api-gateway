@@ -1,4 +1,4 @@
-name: Deploy QA - API Gateway #
+name: Deploy QA - API Gateway
 
 on:
   push:
@@ -6,39 +6,22 @@ on:
       - QA
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 🔁 Checkout code
-        uses: actions/checkout@v3
-
-      - name: 🐳 Login to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: 🏗️ Build Docker image
+      - name: Setup SSH key
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/api-gateway:qa .
+          echo "${{ secrets.EC2_SSH_KEY }}" > key.pem
+          chmod 400 key.pem
 
-      - name: 📤 Push Docker image to Docker Hub
+      - name: Connect and deploy on EC2
         run: |
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/api-gateway:qa
-
-      - name: 🚀 Deploy to EC2
-        uses: appleboy/ssh-action@v0.1.10
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ubuntu
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            script: |
-              cd ~/api-gateway
-              git pull origin QA
-              docker ps -q --filter "publish=8000" | xargs -r docker stop
-              docker ps -a -q --filter "publish=8000" | xargs -r docker rm
-              docker pull ${{ secrets.DOCKERHUB_USERNAME }}/api-gateway:qa
-              docker run -d --name api-gateway -p 8000:8000 ${{ secrets.DOCKERHUB_USERNAME }}/api-gateway:qa
-
+          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i key.pem ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
+            cd ~/api-gateway
+            git pull origin QA
+            docker build -t api-gateway .
+            docker stop api-gateway || true
+            docker rm api-gateway || true
+            docker run -d -p 8000:8000 --name api-gateway --restart unless-stopped api-gateway
+          EOF
