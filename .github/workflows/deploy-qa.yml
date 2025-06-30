@@ -3,7 +3,7 @@ name: Deploy QA - API Gateway
 on:
   push:
     branches:
-      - QA  # solo ejecuta cuando haces push a la rama qa,
+      - QA
 
 jobs:
   build-and-deploy:
@@ -26,3 +26,17 @@ jobs:
       - name: 📤 Push Docker image to Docker Hub
         run: |
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/api-gateway:qa
+
+      - name: 🚀 Deploy to EC2
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd ~/api-gateway
+            git pull origin QA
+            docker stop api-gateway || true
+            docker rm api-gateway || true
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/api-gateway:qa
+            docker run -d --name api-gateway -p 8000:8000 ${{ secrets.DOCKERHUB_USERNAME }}/api-gateway:qa
