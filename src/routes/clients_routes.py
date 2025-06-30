@@ -1,4 +1,4 @@
-# src/routes/clients_routes.py
+# src/routes/clients_routes.py.
 
 from fastapi import APIRouter, Request
 import httpx
