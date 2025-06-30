@@ -3,7 +3,7 @@ name: Deploy QA - API Gateway
 on:
   push:
     branches:
-      - QA  # solo ejecuta cuando haces push a la rama qa
+      - QA  # solo ejecuta cuando haces push a la rama qa,
 
 jobs:
   build-and-deploy:
