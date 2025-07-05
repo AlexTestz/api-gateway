@@ -1,78 +1,76 @@
-# API Gateway - Pet Host
+# 🐾 API Gateway - Pet Host
 
-Este proyecto es un **API Gateway** para el sistema Pet Host, encargado de enrutar y orquestar las peticiones entre los diferentes microservicios del ecosistema (usuarios, clientes, mascotas, etc).
-
----
-
-## Tecnologías Utilizadas
-
-- **Lenguaje:** Python
-- **Framework:** FastAPI
-- **Cliente HTTP:** httpx
+This project is an **API Gateway** for the Pet Host system, responsible for routing and orchestrating requests between various microservices such as users, clients, and pets.
 
 ---
 
-## Estilo de Arquitectura
+## 🛠️ Technologies Used
 
-- **RESTful API:** Todos los endpoints siguen el estilo REST para la comunicación entre servicios.
-- **Microservicios:** El API Gateway actúa como punto de entrada único para varios microservicios independientes.
-
----
-
-## Patrones de Diseño
-
-- **KISS (Keep It Simple, Stupid):** El código es sencillo y directo, evitando complejidad innecesaria.
-- **DRY (Don't Repeat Yourself):** Se reutilizan funciones y configuraciones para evitar duplicidad.
-- **SOLID:** Se aplican principios básicos de diseño orientado a objetos para mantener el código mantenible y escalable.
+- **Language:** Python  
+- **Framework:** FastAPI  
+- **HTTP Client:** httpx
 
 ---
 
-## Arquitectura
+## 🧩 Architecture Style
 
-- **N-Capas:** Separación clara entre rutas, lógica de negocio y configuración.
-- **API Gateway:** Centraliza la entrada de peticiones y delega a los microservicios correspondientes.
-
----
-
-## Seguridad
-
-- **JWT (JSON Web Token):** Se utiliza para la autenticación y autorización de usuarios en los endpoints protegidos.
-- **CORS (Cross-Origin Resource Sharing):** Configurado para permitir solicitudes desde orígenes permitidos y proteger el acceso a la API.
+- **RESTful API:** All endpoints follow RESTful standards for communication.  
+- **Microservices:** The API Gateway acts as the single entry point to several independent services.
 
 ---
 
----
+## 🎯 Design Patterns
 
-## Endpoints Principales
-
-- `/api/users/` - Gestión de usuarios (registro, login, validación de token, cambio de contraseña)
-- `/api/clients/` - Gestión de clientes (crear, listar, actualizar, eliminar)
-- `/api/pets/` - Gestión de mascotas (crear, listar, actualizar, eliminar)
+- **KISS (Keep It Simple, Stupid):** Simple and direct code with no unnecessary complexity.  
+- **DRY (Don’t Repeat Yourself):** Functions and configurations are reused to avoid duplication.  
+- **SOLID:** Object-oriented design principles ensure the code is maintainable and scalable.
 
 ---
 
-## Variables de Entorno
+## 🏗️ Internal Architecture
 
-Configura las URLs de los microservicios en el archivo de configuración o variables de entorno:
-
-- `REGISTER_USER_URL`
-- `LOGIN_USER_URL`
-- `VALIDATE_TOKEN_URL`
-- `CHANGE_PASSWORD_URL`
-- `CREATE_CLIENT_URL`
-- `GET_CLIENT_URL`
-- `UPDATE_CLIENT_URL`
-- `DELETE_CLIENT_URL`
-- `CREATE_PET_URL`
-- `GET_PET_URL`
-- `UPDATE_PET_URL`
-- `DELETE_PET_URL`
+- **N-Layered:** Clear separation of routes, business logic, and configuration.  
+- **API Gateway Pattern:** Centralizes all external requests and delegates them to the respective microservices.
 
 ---
+
+## 🔐 Security
+
+- **JWT (JSON Web Token):** Used to secure endpoints requiring authentication and authorization.  
+- **CORS:** Configured to allow requests from specific origins and secure API access.
+
+---
+
+## 🚀 Main Endpoints
+
+- `/api/users/` – User management (register, login, token validation, password change)  
+- `/api/clients/` – Client management (create, list, update, delete)  
+- `/api/pets/` – Pet management (create, list, update, delete)
+
+---
+
+## 🌐 Environment Variables
+
+Make sure to configure the following environment variables:
+
+```env
+REGISTER_USER_URL=
+LOGIN_USER_URL=
+VALIDATE_TOKEN_URL=
+CHANGE_PASSWORD_URL=
+CREATE_CLIENT_URL=
+GET_CLIENT_URL=
+UPDATE_CLIENT_URL=
+DELETE_CLIENT_URL=
+CREATE_PET_URL=
+GET_PET_URL=
+UPDATE_PET_URL=
+DELETE_PET_URL=
+
 
 ## Docker
 
-### Construir la imagen
+### build the docker image
 
 ```bash
 docker build -t api-gateway .
@@ -81,14 +79,12 @@ docker build -t api-gateway .
 ### Ejecutar el contenedor
 
 ```bash
-docker run -d -p 8000:8000 --env-file .env api-gateway
+docker run -d -p 8000:8000 api-gateway
 ```
-
-Asegúrate de tener el archivo `.env` con las variables de entorno necesarias.
 
 ---
 
-## Ejecución Local
+## Local execute
 
 ```bash
 uvicorn src.main:app --reload --host 0.0.0.0 --port 8000
@@ -96,9 +92,9 @@ uvicorn src.main:app --reload --host 0.0.0.0 --port 8000
 
 ---
 
-## Notas
+## Notes
 
-- Este API Gateway es fácilmente extensible para agregar nuevos microservicios.
-- El manejo de errores y validaciones se realiza de forma centralizada para mantener la coherencia en las respuestas.
+- This API Gateway is easily extensible to add new microservices.
+- Error handling and validation are performed centrally to maintain consistency in responses.
 
 ---
