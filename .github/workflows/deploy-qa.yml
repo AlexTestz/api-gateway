@@ -41,13 +41,15 @@ jobs:
         port: 22
         script: |
           # Detener y eliminar contenedores antiguos si existen
-          docker stop $(docker ps -aq) || true
-          docker rm $(docker ps -aq) || true
+          docker stop $(docker ps -aq)
+          docker rm $(docker ps -aq)
           
-          # Descargar la imagen
+          # Descargar imágenes desde Docker Hub
           docker pull alexmpz/api-gateway:qa
           
-          # Ejecutar contenedor api-gateway
+          # Ejecutar contenedor api-gateway en puerto 8000, pasando las variables de entorno
+          
+          # Ejecutar contenedor api-gateway en puerto 8000, pasando las variables de entorno
           docker run -d -p 8000:8000 \
             -e REGISTER_USER_URL=${{ secrets.REGISTER_USER_URL }} \
             -e LOGIN_USER_URL=${{ secrets.LOGIN_USER_URL }} \
@@ -66,3 +68,4 @@ jobs:
             -e UPDATE_SERVICE_URL=${{ secrets.UPDATE_SERVICE_URL }} \
             -e DELETE_SERVICE_URL=${{ secrets.DELETE_SERVICE_URL }} \
             alexmpz/api-gateway:qa
+
