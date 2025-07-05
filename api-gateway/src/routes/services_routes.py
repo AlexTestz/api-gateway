@@ -19,10 +19,10 @@ async def get_services():
         response = await client.get(f"{get_env('GET_SERVICES_URL')}/api/services")
         return response.json()
 
-@router.get("/{service_id}")
-async def get_service_by_id(service_id: str):
+@router.get("/name/{name}")
+async def get_service_by_name(name: str):
     async with httpx.AsyncClient() as client:
-        response = await client.get(f"{get_env('GET_SERVICES_URL')}/api/services/{service_id}")
+        response = await client.get(f"{get_env('GET_SERVICES_URL')}/api/services/name/{name}")  
         
         if response.status_code == 404:
             return {"detail": "Service not found"}
