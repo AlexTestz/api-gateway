@@ -47,6 +47,24 @@ jobs:
           # Descargar imagen actualizada
           docker pull alexmpz/api-gateway:qa
 
+           echo "Variables:"
+           echo "REGISTER_USER_URL: ${{ secrets.REGISTER_USER_URL }}"
+           echo "LOGIN_USER_URL: ${{ secrets.LOGIN_USER_URL }}"
+           echo VALIDATE_TOKEN_URL="${{ secrets.VALIDATE_TOKEN_URL }}" 
+           echo CHANGE_PASSWORD_URL="${{ secrets.CHANGE_PASSWORD_URL }}" 
+           echo CREATE_CLIENT_URL="${{ secrets.CREATE_CLIENT_URL }}" 
+           echo GET_CLIENT_URL="${{ secrets.GET_CLIENT_URL }}" 
+           echo UPDATE_CLIENT_URL="${{ secrets.UPDATE_CLIENT_URL }}" 
+           echo DELETE_CLIENT_URL="${{ secrets.DELETE_CLIENT_URL }}" 
+           echo CREATE_PET_URL="${{ secrets.CREATE_PET_URL }}" 
+           echo GET_PET_URL="${{ secrets.GET_PET_URL }}" 
+           echo UPDATE_PET_URL="${{ secrets.UPDATE_PET_URL }}"
+           echo DELETE_PET_URL="${{ secrets.DELETE_PET_URL }}" 
+           echo CREATE_SERVICE_URL="${{ secrets.CREATE_SERVICE_URL }}" 
+           echo GET_SERVICES_URL="${{ secrets.GET_SERVICES_URL }}" 
+           echo UPDATE_SERVICE_URL="${{ secrets.UPDATE_SERVICE_URL }}" 
+           echo DELETE_SERVICE_URL="${{ secrets.DELETE_SERVICE_URL }}" 
+          
           # Ejecutar contenedor en puerto 8000
           docker run -d -p 8000:8000 \
             -e REGISTER_USER_URL="${{ secrets.REGISTER_USER_URL }}" \
@@ -66,4 +84,3 @@ jobs:
             -e UPDATE_SERVICE_URL="${{ secrets.UPDATE_SERVICE_URL }}" \
             -e DELETE_SERVICE_URL="${{ secrets.DELETE_SERVICE_URL }}" \
             alexmpz/api-gateway:qa
-            
