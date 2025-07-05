@@ -32,7 +32,7 @@ jobs:
         docker push alexmpz/api-gateway:qa
 
     # Paso 5: Connect to the EC2 instance using elastic IP and deploy the containers
-    - name: Deploy to EC2
+        - name: Deploy to EC2
       uses: appleboy/ssh-action@v0.1.8
       with:
         host: ${{ secrets.EC2_HOSTT }}  # IP EC2 elastic
@@ -41,14 +41,13 @@ jobs:
         port: 22
         script: |
           # Detener y eliminar contenedores antiguos si existen
-          docker stop $(docker ps -aq)
-          docker rm $(docker ps -aq)
+          docker stop $(docker ps -aq) || true
+          docker rm $(docker ps -aq) || true
           
-          # Descargar imágenes desde Docker Hub
+          # Descargar la imagen
           docker pull alexmpz/api-gateway:qa
           
-          # Ejecutar contenedor api-gateway en puerto 8000, pasando las variables de entorno
-          
+          # Ejecutar contenedor api-gateway
           docker run -d -p 8000:8000 \
             -e REGISTER_USER_URL=${{ secrets.REGISTER_USER_URL }} \
             -e LOGIN_USER_URL=${{ secrets.LOGIN_USER_URL }} \
