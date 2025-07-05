@@ -25,7 +25,7 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    # Paso 4: Build and upload Docker images
+    # Paso 4: Build and upload Docker image for api-gateway
     - name: Build and push Docker image for api-gateway
       run: |
         docker build -t alexmpz/api-gateway:qa ./api-gateway
@@ -43,10 +43,10 @@ jobs:
           # Detener y eliminar contenedores antiguos si existen
           docker stop $(docker ps -aq)
           docker rm $(docker ps -aq)
-          
+
           # Descargar imágenes desde Docker Hub
           docker pull alexmpz/api-gateway:qa
-          
+
           # Ejecutar contenedor api-gateway en puerto 8000, pasando las variables de entorno
           docker run -d -p 8000:8000 \
             -e REGISTER_USER_URL=${{ secrets.REGISTER_USER_URL }} \
