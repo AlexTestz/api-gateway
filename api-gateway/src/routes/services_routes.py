@@ -19,10 +19,25 @@ async def get_services():
         response = await client.get(f"{get_env('GET_SERVICES_URL')}/api/services")
         return response.json()
 
-@router.get("/name/{name}")
-async def get_service_by_name(name: str):
+#@router.get("/name/{name}")
+#async def get_service_by_name(name: str):
+ #   async with httpx.AsyncClient() as client:
+  #      response = await client.get(f"{get_env('GET_SERVICES_URL')}/api/services/name/{name}")  
+        
+   #     if response.status_code == 404:
+    #        return {"detail": "Service not found"}
+     #   elif response.status_code != 200:
+      #      return {"detail": f"Unexpected error from service provider (status {response.status_code})"}
+
+       # try:
+        #    return response.json()
+        #except Exception:
+         #   return {"detail": "Response is not valid JSON"}
+#new line
+@router.get("/{service_id}")
+async def get_service_by_id(service_id: str):
     async with httpx.AsyncClient() as client:
-        response = await client.get(f"{get_env('GET_SERVICES_URL')}/api/services/name/{name}")  
+        response = await client.get(f"{get_env('GET_SERVICES_URL')}/api/services/{service_id}")
         
         if response.status_code == 404:
             return {"detail": "Service not found"}
@@ -33,6 +48,7 @@ async def get_service_by_name(name: str):
             return response.json()
         except Exception:
             return {"detail": "Response is not valid JSON"}
+
 
 @router.put("/{service_id}")
 async def update_service(service_id: str, req: Request):
